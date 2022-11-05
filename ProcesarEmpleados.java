@@ -70,12 +70,35 @@ public class ProcesarEmpleados {
 
     }
     static void sumaNominaDepartamento(){
-        System.out.println("La sumatoria de nóminas por departamento son: ");
+        System.out.println("LA SUMA DE NÓMINA POR DEPARTAMENTO ES: ");
+        Map<String, List<Empleado>> agrupadoPorDepartamento =
+                empleados.stream()
+                        .collect(Collectors.groupingBy(Empleado::getDepartamento));
+        agrupadoPorDepartamento.forEach(
+                (departamento, empleadosEnDepartamento) ->
+                {
+                    System.out.println(departamento);
+                    System.out.println(empleadosEnDepartamento.stream().mapToDouble(Empleado::getSalario).sum());
+                }
+        );
+        System.out.println("---------------------------------------------------------------------------------------------------------");
+
     }
 
 
-    static void empleadoGanaMasDepartamento(){
+    static void empleadoGanaMasDepartamento() {
         System.out.println("Los EMPLEADOS QUE GANAN MÁS DE CADA DEPARTAMENTO SON: ");
+        Map<String, List<Empleado>> agrupadoPorDepartamento =
+                empleados.stream()
+                        .collect(Collectors.groupingBy(Empleado::getDepartamento));
+        agrupadoPorDepartamento.forEach(
+                (departamento, empleadosEnDepartamento) ->
+                {
+                    System.out.println(departamento);
+                    System.out.println(empleadosEnDepartamento.stream().mapToDouble(Empleado::getSalario).max().getAsDouble());
+                }
+        );
+        System.out.println("---------------------------------------------------------------------------------------------------------");
 
     }
     static Predicate<Empleado> Maxsalario=
@@ -98,12 +121,23 @@ public class ProcesarEmpleados {
     }
 
     static void promediosalarioDepartamento(){
+        System.out.println("EL PROMEDIO DE SALARIO POR DEPARTAMENTO ES: ");
+        Map<String, List<Empleado>> agrupadoPorDepartamento =
+                empleados.stream()
+                        .collect(Collectors.groupingBy(Empleado::getDepartamento));
+        agrupadoPorDepartamento.forEach(
+                (departamento, empleadosEnDepartamento) ->
+                {
+                    System.out.println(departamento);
+                    System.out.println(empleadosEnDepartamento.stream().mapToDouble(Empleado::getSalario).average().getAsDouble());
+                }
+        );
+        System.out.println("---------------------------------------------------------------------------------------------------------");
 
-        System.out.println("La sumatoria de nóminas por departamento son: ");
     }
 
     static void promedioSalario(){
-        System.out.printf("Promedio de salarios de los empleados: %.2f%n",
+        System.out.printf("EL PROMEDIO DE SALARIO DE LOS EMPLEADOS ESs: %.2f%n",
                 empleados.stream()
                         .mapToDouble(Empleado::getSalario)
                         .average()
@@ -113,7 +147,7 @@ public class ProcesarEmpleados {
     }
 
     static void nomina(){
-        System.out.printf("La nómina total es: %.2f%n",
+        System.out.printf("LA NÓMINA TOTAL ES: %.2f%n",
                 empleados.stream()
                         .mapToDouble(Empleado::getSalario)
                         .sum());
@@ -129,9 +163,9 @@ public class ProcesarEmpleados {
         mostrarEmpleadosRango();
         empleadosDepartamento();
         cantidadEmpleadosDepartamento();
-        //
-        //
         sumaNominaDepartamento();
+        empleadoGanaMasDepartamento();
+        promediosalarioDepartamento();
         empleadoGanaMas();
         empleadoGanaMenos();
         promedioSalario();
